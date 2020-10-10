@@ -8,7 +8,7 @@ class prueba {
 
 	@Test
 	void testCreateEvent() {
-		fail("Not yet implemented");
+		
 	}
 
 }

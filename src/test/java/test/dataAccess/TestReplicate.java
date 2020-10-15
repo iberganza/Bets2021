@@ -12,15 +12,15 @@ import domain.User;
 import exceptions.UsernameNoExist;
 
 class TestReplicate {
-	static TestDataAccess dbManagerTest;
+	static TestDataAccess db;
 	private DataAccess sut = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));;
 
 	
 	@BeforeAll
 	public static void initialize()
 	{
-		dbManagerTest=new TestDataAccess(); 
-		dbManagerTest.addUser("user1", "contr");
+		db=new TestDataAccess(); 
+		db.addUser("user1", "pass1");
 	}
 
 	@Test
@@ -29,23 +29,29 @@ class TestReplicate {
 	{
 		User u = new User("n", "n", "n");
 		assertThrows(UsernameNoExist.class,
-				()-> sut.replicate(u, "user2", 0.0));
+				()-> sut.replicate(u, "user1", 0.0));
 	}
 	
 	@Test
-	@DisplayName("Test 2: Usuario replicador no es null")
+	@DisplayName("Test 2: Usuario replicador no es null, y se añade a la lista de replicados")
 	void testReplicate2() 
 	{
+		User u = new User("user2", "pass2", "nombre");
+		try {
+			
+		}catch()
+		sut.replicate(u, "user1", 0.0);
+		User replicator = db.find(u);
+		replicator.getReplicatingUsers().contains(u);
 		assertThrows(UsernameNoExist.class,
-				()-> cFull.add(7));
+				()-> sut.replicate(u, "user2", 0.0));
+		
 	}
 	
 	@Test
 	@DisplayName("Test 3: Usuario replicador es null")
 	void testReplicate3() 
 	{
-		assertThrows(UsernameNoExist.class,
-				()-> cFull.add(7));
 	}
 	
 	

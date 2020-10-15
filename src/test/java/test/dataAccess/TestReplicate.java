@@ -1,6 +1,7 @@
 package test.dataAccess;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,7 @@ class TestReplicate {
 	{
 		User u = new User("n", "n", "n");
 		assertThrows(UsernameNoExist.class,
-				()-> sut.replicate(u, "user1", 0.0));
+				()-> sut.replicate(u, "user2", 0.0));
 	}
 	
 	@Test
@@ -37,10 +38,15 @@ class TestReplicate {
 	void testReplicate2() 
 	{
 		User u = new User("user2", "pass2", "nombre");
-		try {
-			
-		}catch()
-		sut.replicate(u, "user1", 0.0);
+		db.addUser("user2", "pass2");
+		try 
+		{
+			sut.replicate(u, "user2", 0.0);
+		}catch(UsernameNoExist e)
+		{
+			fail("Usuario no esta en bd");
+		}
+		
 		User replicator = db.find(u);
 		replicator.getReplicatingUsers().contains(u);
 		assertThrows(UsernameNoExist.class,

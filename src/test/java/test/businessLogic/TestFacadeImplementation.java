@@ -52,5 +52,11 @@ public class TestFacadeImplementation {
 			return o;
 
 		}
+		public User findUser(User u) {
+			dbManagerTest.open();
+			User e = dbManagerTest.find(u);
+			dbManagerTest.close();
+			return e;
+		}
 
 }

@@ -106,5 +106,11 @@ public class TestDataAccess {
 			} else 
 			return false;
 	    }
+		
+		public User find(User u)
+		{
+			return db.find(User.class, u);
+		}
 }
+
 

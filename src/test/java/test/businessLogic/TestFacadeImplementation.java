@@ -7,6 +7,7 @@ import java.util.Date;
 
 import configuration.ConfigXML;
 import domain.Event;
+import domain.Question;
 import domain.User;
 import test.dataAccess.TestDataAccess;
 
@@ -48,6 +49,20 @@ public class TestFacadeImplementation {
 		public User addUser(String username, String pass) {
 			dbManagerTest.open();
 			User o=dbManagerTest.addUser(username,pass);
+			dbManagerTest.close();
+			return o;
+
+		}
+		public boolean removeQuestion(Question u) {
+			dbManagerTest.open();
+			boolean b=dbManagerTest.removeQuestion(u);
+			dbManagerTest.close();
+			return b;
+
+		}
+		public Question addQuestion(int x,String text, Float f) {
+			dbManagerTest.open();
+			Question o=dbManagerTest.addQuestion(x,text,f);
 			dbManagerTest.close();
 			return o;
 

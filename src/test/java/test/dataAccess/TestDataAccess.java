@@ -13,6 +13,7 @@ import javax.persistence.Persistence;
 
 import configuration.ConfigXML;
 import domain.Event;
+import domain.Question;
 import domain.User;
 
 public class TestDataAccess {
@@ -103,6 +104,31 @@ public class TestDataAccess {
 				db.remove(user);
 				db.getTransaction().commit();
 				System.out.println("user removed");
+				return true;
+			} else 
+			return false;
+	    }
+		public Question addQuestion(int x,String text, Float f) {
+			System.out.println(">> DataAccessTest: addQuestion");
+			Question q = null;
+			try {
+				db.getTransaction().begin();
+				q = new Question(x,text,f,null);
+				db.persist(q);
+				db.getTransaction().commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return q;
+		}
+		public boolean removeQuestion(Question question) {
+			System.out.println(">> DataAccessTest: removeQuestion");
+			Question q = db.find(Question.class, question.getQuestionNumber());
+			if (q!=null) {
+				db.getTransaction().begin();
+				db.remove(q);
+				db.getTransaction().commit();
+				System.out.println("Question removed");
 				return true;
 			} else 
 			return false;

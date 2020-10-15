@@ -106,6 +106,9 @@ public class TestDataAccess {
 				System.out.println("user removed");
 				return true;
 			} else 
+			{
+				System.out.println("Usuario no esta en db");
+			}
 			return false;
 	    }
 		public Question addQuestion(int x,String text, Float f) {

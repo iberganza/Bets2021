@@ -102,6 +102,7 @@ public class TestDataAccess {
 				db.getTransaction().begin();
 				db.remove(user);
 				db.getTransaction().commit();
+				System.out.println("user removed");
 				return true;
 			} else 
 			{

@@ -2,14 +2,15 @@ package junitMock;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import domain.User;
 import exceptions.NoFounds;
@@ -17,29 +18,27 @@ import test.businessLogic.TestFacadeImplementation;
 
 class ReplicateTest {
 	
+	private BLFacadeImplementation sut;
 	//private DataAccess da;
 	//private DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));;
-	private static TestFacadeImplementation testBL = new TestFacadeImplementation();
-	private static User u1;
+	private User u1;
+	
 	
 	@Mock
-	private static DataAccess da;
-	//private static BLFacadeImplementation sut;
+	private BLFacade facade;
 	
-	@BeforeAll
-	public static void initialize()
+	@BeforeEach
+	public void initialize()
 	{
-		//MockitoAnnotations.initMocks(sut);
-		sut = new BLFacadeImplementation();
+		MockitoAnnotations.initMocks(this);
+		//facade = new BLFacade();
 		u1 = new User("user1", "pass1", "Primero");
-		testBL.addUser("user1", "pass1");
 
 	}
 	
-	@AfterAll
-	public static void clean()
+	@AfterEach
+	public void clean()
 	{
-		testBL.removeUser(u1);
 	}
 	
 	@Test
@@ -54,9 +53,8 @@ class ReplicateTest {
 	void replicate2() 
 	{
 		User u2 = new User("user2", "pass2", "Primero");
-		testBL.addUser("user2", "pass2");
-		Mockito.doReturn(10.0f).when(sut).changeMoney(u2, 10.0f);
+		Mockito.doReturn(-1).when(facade).changeMoney(u2, 10.0f);
 		assertThrows(NoFounds.class,
-				()-> sut.replicate(u2, "user1", 2.0));
+				()-> facade.replicate(u2, "user1", 2.0));
 	}
 }

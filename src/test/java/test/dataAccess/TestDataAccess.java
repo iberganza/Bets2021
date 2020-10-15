@@ -104,6 +104,9 @@ public class TestDataAccess {
 				db.getTransaction().commit();
 				return true;
 			} else 
+			{
+				System.out.println("Usuario no esta en db");
+			}
 			return false;
 	    }
 		

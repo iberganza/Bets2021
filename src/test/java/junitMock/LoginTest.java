@@ -18,11 +18,16 @@ class LoginTest {
 
 	@Test
 	void testLogin1() {
-			//User u = new User(username,pass,"");
-			User user = testBL.addUser(username, pass);
-			//assertEquals(u,user);
-			boolean b = testBL.removeUser(user);
-			assertTrue(b);
+		//añadimos user a la bd
+		User user = testBL.addUser(username, pass);
+		try {
+		assertEquals(sut.login(username, pass),user);
+		}catch(Exception e) {}
+		//borramos user
+		assertTrue(testBL.removeUser(user));
+}
+	@Test
+	void testLogin2() {
 	}
 	@Test
 	void testLogin3() {

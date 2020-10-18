@@ -25,6 +25,7 @@ class ReplicateTest {
 	
 	@Mock
 	private DataAccess sut;
+	
 
 	@BeforeEach
 	public void initialize()

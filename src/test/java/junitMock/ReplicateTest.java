@@ -21,11 +21,7 @@ import exceptions.UsernameNoExist;
 class ReplicateTest {
 	
 	private BLFacadeImplementation facade;
-	//private DataAccess da;
-	//private DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));;
-	private User u1;
 	private User u2;
-	
 	
 	@Mock
 	private DataAccess sut;
@@ -35,7 +31,6 @@ class ReplicateTest {
 	{
 		MockitoAnnotations.initMocks(this);
 		facade = new BLFacadeImplementation(sut);
-		u1 = new User("user1", "pass1", "Primero");
 		u2 = new User("user2", "pass2", "Primero");
 		u2.setMoney(10.0f);
 	}

@@ -26,7 +26,6 @@ class TestReplicate {
 	{
 		u1 = new User("user1", "pass1", "Primero");
 		testBL.addUser("user1", "pass1");
-
 	}
 	
 	@AfterAll
@@ -36,7 +35,7 @@ class TestReplicate {
 	}
 
 	@Test
-	@DisplayName("Test 1: Usuario replicado es null")
+	@DisplayName("Test 1: Usuario replicado es null, user no esta en BD")
 	void testReplicate1() 
 	{
 		User u = new User("n", "n", "n");
@@ -45,7 +44,7 @@ class TestReplicate {
 	}
 	
 	@Test
-	@DisplayName("Test 2: Usuario replicador no es null, y se añade a la lista de replicados")
+	@DisplayName("Test 2: Usuario replicador no es null, user esta en BD, y se añade a la lista de replicados")
 	void testReplicate2() 
 	{
 		User u2 = new User("user2", "pass2", "nombre");
@@ -65,7 +64,7 @@ class TestReplicate {
 	}
 	
 	@Test
-	@DisplayName("Test 3: Usuario replicador es null")
+	@DisplayName("Test 3: Usuario replicador es null, user no esta en BD")
 	void testReplicate3() 
 	{
 		User u3 = new User("user3", "pass3", "nombre");
@@ -91,7 +90,4 @@ class TestReplicate {
 		//Al hacer otro replicate, ya esta añadido
 		//por lo que devuelve null, ver metodo addReplicator en user
 	}
-	
-	
-
 }

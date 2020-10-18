@@ -1,5 +1,6 @@
 package junitMock;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +16,7 @@ import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
 import domain.User;
 import exceptions.NoFounds;
+import exceptions.UsernameNoExist;
 
 class ReplicateTest {
 	
@@ -22,6 +24,7 @@ class ReplicateTest {
 	//private DataAccess da;
 	//private DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));;
 	private User u1;
+	private User u2;
 	
 	
 	@Mock
@@ -31,52 +34,41 @@ class ReplicateTest {
 	public void initialize()
 	{
 		MockitoAnnotations.initMocks(this);
-		facade = new BLFacadeImplementation();
+		facade = new BLFacadeImplementation(sut);
 		u1 = new User("user1", "pass1", "Primero");
-
-	}
-	
-	@AfterEach
-	public void clean()
-	{
+		u2 = new User("user2", "pass2", "Primero");
+		u2.setMoney(10.0f);
 	}
 	
 	@Test
-	@DisplayName("Test 1")
+	@DisplayName("Test 1: El dinero del usuario es mayor que el parametro amount pasado")
 	void replicate1() 
 	{
-
+		try {
+			User u2 = new User("user2", "pass2", "Primero");
+			u2.setMoney(10.0f);
+			facade.replicate(u2, "user1", 2.0);
+			
+			ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+			ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
+			ArgumentCaptor<Double> quantityCaptor = ArgumentCaptor.forClass(Double.class);
+			
+			Mockito.verify(sut,Mockito.times(1)).replicate(userCaptor.capture(),
+					stringCaptor.capture(),quantityCaptor.capture());
+		}catch(NoFounds e)
+		{
+			fail("Error de dinero");
+		}catch(UsernameNoExist e)
+		{
+			fail("Error de usuario");
+		}
 	}
 	
 	@Test
-	@DisplayName("Test 2")
+	@DisplayName("Test 2: El dinero del usuario es menor que el parametro amount pasado")
 	void replicate2() 
 	{
-		try
-		{
-			User userMock = Mockito.mock(User.class);
-			User u2 = new User("user2", "pass2", "Primero");
-			u2.setMoney(10.0f);
-			
-			
-			
-			
-			/*ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-			ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
-			ArgumentCaptor<Double> quantityCaptor = ArgumentCaptor.forClass(Double.class);
-	
-			Mockito.verify(facade,Mockito.times(0)).replicate(userCaptor.capture(),
-					stringCaptor.capture(),quantityCaptor.capture());*/
-			
-			//Mockito.doReturn(u0).when(sut).changeMoney(u2, 10.0f);
-			//Mockito.doReturn(u0).when(sut).changeMoney(u2, 10.0f);
-			//doThrow(NoFounds.class).when(listMock).clear();
-			//assertThrows(NoFounds.class,
-			//		()-> facade.replicate(u2, "user1", 50.0));
-		}catch(Exception e)
-		{
-			
-		}
-		
+		assertThrows(NoFounds.class,
+				()-> facade.replicate(u2, "user1", 50.0));
 	}
 }

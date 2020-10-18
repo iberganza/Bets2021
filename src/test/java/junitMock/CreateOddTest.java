@@ -45,7 +45,6 @@ class CreateOddTest {
 	@Test
 	void testCreateOdd2() {
 		try {
-		Odd odd = new Odd(f, result, q);
 		Mockito.when(sut.createOdd(q, f, result)).thenThrow(OddExist.class);
 		assertThrows(OddExist.class,
 				()-> sut.createOdd(q, f, result));		
@@ -54,7 +53,6 @@ class CreateOddTest {
 	@Test
 	void testCreateOdd3() {
 		try {
-		Odd odd = new Odd(f, result, q);
 		Mockito.when(sut.createOdd(q, f, result)).thenThrow(InvalidRate.class);
 		assertThrows(InvalidRate.class,
 				()-> sut.createOdd(q, f, result));		
